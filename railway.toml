@@ -1,5 +1,0 @@
-[build]
-builder = "node"
-
-[deploy]
-start = "cd backend && npm install && npm start"
