@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import Toolbar from '../components/Toolbar';
 import { useToast } from '../hooks/use-toast';
 import { Toaster } from '../components/ui/toaster';
+import ThemeToggle from '../components/ThemeToggle';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8001';
 
@@ -99,6 +100,7 @@ const Whiteboard = () => {
 
   const drawOnCanvas = (data, emit = true) => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
     if (data.tool === 'clear') {
@@ -107,35 +109,39 @@ const Whiteboard = () => {
     }
 
     if (data.tool === 'text') {
-      ctx.font = `${data.lineWidth * 8}px Inter, sans-serif`;
-      ctx.fillStyle = data.color;
+      const fontSize = Math.max(12, (data.lineWidth || lineWidth) * 8);
+      ctx.save();
+      ctx.font = `${fontSize}px Inter, sans-serif`;
+      ctx.fillStyle = data.color || color;
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'left';
       ctx.fillText(data.text, data.x, data.y);
-      return;
-    }
+      ctx.restore();
+    } else {
+      ctx.strokeStyle = data.color;
+      ctx.lineWidth = data.lineWidth;
+      ctx.globalCompositeOperation = data.tool === 'eraser' ? 'destination-out' : 'source-over';
 
-    ctx.strokeStyle = data.color;
-    ctx.lineWidth = data.lineWidth;
-    ctx.globalCompositeOperation = data.tool === 'eraser' ? 'destination-out' : 'source-over';
-
-    if (data.tool === 'line' || data.tool === 'rectangle' || data.tool === 'circle') {
-      if (data.tool === 'line') {
+      if (data.tool === 'line' || data.tool === 'rectangle' || data.tool === 'circle') {
+        if (data.tool === 'line') {
+          ctx.beginPath();
+          ctx.moveTo(data.startX, data.startY);
+          ctx.lineTo(data.endX, data.endY);
+          ctx.stroke();
+        } else if (data.tool === 'rectangle') {
+          ctx.strokeRect(data.startX, data.startY, data.endX - data.startX, data.endY - data.startY);
+        } else if (data.tool === 'circle') {
+          const radius = Math.sqrt(Math.pow(data.endX - data.startX, 2) + Math.pow(data.endY - data.startY, 2));
+          ctx.beginPath();
+          ctx.arc(data.startX, data.startY, radius, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+      } else {
         ctx.beginPath();
-        ctx.moveTo(data.startX, data.startY);
-        ctx.lineTo(data.endX, data.endY);
-        ctx.stroke();
-      } else if (data.tool === 'rectangle') {
-        ctx.strokeRect(data.startX, data.startY, data.endX - data.startX, data.endY - data.startY);
-      } else if (data.tool === 'circle') {
-        const radius = Math.sqrt(Math.pow(data.endX - data.startX, 2) + Math.pow(data.endY - data.startY, 2));
-        ctx.beginPath();
-        ctx.arc(data.startX, data.startY, radius, 0, 2 * Math.PI);
+        ctx.moveTo(data.x0, data.y0);
+        ctx.lineTo(data.x1, data.y1);
         ctx.stroke();
       }
-    } else {
-      ctx.beginPath();
-      ctx.moveTo(data.x0, data.y0);
-      ctx.lineTo(data.x1, data.y1);
-      ctx.stroke();
     }
 
     if (emit) {
@@ -298,6 +304,7 @@ const Whiteboard = () => {
 
   return (
     <div className="canvas-container">
+      <ThemeToggle className="fixed top-6 right-6 z-50" />
       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
@@ -337,7 +344,7 @@ const Whiteboard = () => {
           <input
             autoFocus
             type="text"
-            className="border-2 border-indigo-500 px-2 py-1 rounded bg-white"
+            className="border-2 border-indigo-500 px-2 py-1 rounded bg-white dark:bg-slate-900 dark:text-white"
             style={{ fontSize: `${lineWidth * 8}px`, minWidth: '200px' }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {

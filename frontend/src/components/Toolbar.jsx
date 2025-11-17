@@ -56,14 +56,14 @@ const Toolbar = ({
 
   return (
     <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
-      <div className="bg-white/95 backdrop-blur-lg shadow-2xl rounded-2xl p-3 border border-slate-200">
+      <div className="bg-white/95 dark:bg-slate-800/90 backdrop-blur-lg shadow-2xl rounded-2xl p-3 border border-slate-200 dark:border-slate-700">
         <div className="flex items-center gap-3">
           {/* Home */}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate('/')}
-            className="hover:bg-indigo-50 transition-colors"
+            className="hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors"
           >
             <Home className="w-5 h-5" />
           </Button>
@@ -81,7 +81,7 @@ const Toolbar = ({
                 className={`transition-all ${
                   tool === id 
                     ? 'bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700' 
-                    : 'hover:bg-slate-100'
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
                 title={label}
               >
@@ -99,7 +99,7 @@ const Toolbar = ({
                 key={c}
                 onClick={() => setColor(c)}
                 className={`w-7 h-7 rounded-full transition-all hover:scale-110 ${
-                  color === c ? 'ring-2 ring-offset-2 ring-indigo-500' : ''
+                  color === c ? 'ring-2 ring-offset-2 ring-indigo-500 dark:ring-offset-slate-800' : ''
                 }`}
                 style={{ backgroundColor: c }}
                 title={c}
@@ -137,7 +137,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={undo}
-              className="hover:bg-slate-100"
+              className="hover:bg-slate-100 dark:hover:bg-slate-700"
               title="Undo"
             >
               <Undo2 className="w-5 h-5" />
@@ -146,7 +146,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={redo}
-              className="hover:bg-slate-100"
+              className="hover:bg-slate-100 dark:hover:bg-slate-700"
               title="Redo"
             >
               <Redo2 className="w-5 h-5" />
@@ -155,7 +155,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={clearCanvas}
-              className="hover:bg-red-50 hover:text-red-600"
+              className="hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/40"
               title="Clear canvas"
             >
               <Trash2 className="w-5 h-5" />
@@ -170,7 +170,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={saveToLocalStorage}
-              className="hover:bg-green-50 hover:text-green-600"
+              className="hover:bg-green-50 hover:text-green-600 dark:hover:bg-emerald-900/40"
               title="Save to browser"
             >
               <Save className="w-5 h-5" />
@@ -179,7 +179,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={loadFromLocalStorage}
-              className="hover:bg-blue-50 hover:text-blue-600"
+              className="hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/40"
               title="Load from browser"
             >
               <Upload className="w-5 h-5" />
@@ -188,7 +188,7 @@ const Toolbar = ({
               variant="ghost"
               size="icon"
               onClick={exportImage}
-              className="hover:bg-purple-50 hover:text-purple-600"
+              className="hover:bg-purple-50 hover:text-purple-600 dark:hover:bg-purple-900/40"
               title="Export as PNG"
             >
               <Download className="w-5 h-5" />
@@ -202,7 +202,7 @@ const Toolbar = ({
             variant="outline"
             size="sm"
             onClick={copyRoomId}
-            className="hover:bg-indigo-50 hover:border-indigo-300"
+            className="hover:bg-indigo-50 hover:border-indigo-300 dark:hover:bg-slate-700"
           >
             {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
             {roomId}

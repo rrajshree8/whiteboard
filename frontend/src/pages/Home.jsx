@@ -4,6 +4,7 @@ import { Palette, Users, Download, Undo, Type, Pencil } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import ThemeToggle from '../components/ThemeToggle';
 
 const Home = () => {
   const [roomId, setRoomId] = useState('');
@@ -34,22 +35,23 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 transition-colors relative">
+      <ThemeToggle className="fixed top-6 right-6 z-50" />
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
             Collaborative Whiteboard
           </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Draw, sketch, and brainstorm together in real-time. Create or join a room to get started.
           </p>
         </div>
 
         <div className="max-w-md mx-auto mb-16">
-          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur">
+          <Card className="shadow-xl border border-slate-100 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur">
             <CardHeader>
-              <CardTitle className="text-2xl">Get Started</CardTitle>
-              <CardDescription>Create a new board or join an existing one</CardDescription>
+              <CardTitle className="text-2xl text-slate-900 dark:text-white">Get Started</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-300">Create a new board or join an existing one</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Button 
@@ -61,10 +63,10 @@ const Home = () => {
               
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-slate-300" />
+                  <span className="w-full border-t border-slate-300 dark:border-slate-700" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-slate-500">Or join existing</span>
+                  <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 dark:text-slate-300">Or join existing</span>
                 </div>
               </div>
 
@@ -74,12 +76,12 @@ const Home = () => {
                   value={roomId}
                   onChange={(e) => setRoomId(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && joinRoom()}
-                  className="h-12"
+                  className="h-12 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
                 <Button 
                   onClick={joinRoom} 
                   variant="outline" 
-                  className="h-12 px-6 hover:bg-indigo-50 hover:border-indigo-300 transition-all"
+                  className="h-12 px-6 hover:bg-indigo-50 hover:border-indigo-300 dark:hover:bg-slate-800 transition-all"
                 >
                   Join
                 </Button>
@@ -94,16 +96,16 @@ const Home = () => {
             return (
               <Card 
                 key={index} 
-                className="border-0 bg-white/70 backdrop-blur hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="border border-transparent dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-gradient-to-br from-indigo-100 to-blue-100">
-                      <Icon className="w-6 h-6 text-indigo-600" />
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-slate-800 dark:to-slate-900">
+                      <Icon className="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg mb-1">{feature.title}</h3>
-                      <p className="text-sm text-slate-600">{feature.desc}</p>
+                      <h3 className="font-semibold text-lg mb-1 text-slate-900 dark:text-white">{feature.title}</h3>
+                      <p className="text-sm text-slate-600 dark:text-slate-300">{feature.desc}</p>
                     </div>
                   </div>
                 </CardContent>
