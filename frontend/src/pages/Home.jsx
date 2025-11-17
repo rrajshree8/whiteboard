@@ -4,7 +4,7 @@ import { Palette, Users, Download, Undo, Type, Pencil } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import ThemeToggle from '../components/ThemeToggle';
+import ThemeToogle from '../components/ThemeToggle'
 
 const Home = () => {
   const [roomId, setRoomId] = useState('');
